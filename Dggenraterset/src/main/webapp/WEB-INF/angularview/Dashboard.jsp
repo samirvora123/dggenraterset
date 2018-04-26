@@ -71,11 +71,6 @@ table { table-layout:fixed; } td{ overflow:hidden; text-overflow: ellipsis; }
 <script src="angularjs/views/component/component.controller.js"></script>
 <script src="angularjs/views/component/component.services.js"></script>
 
-<!--  Add Dashboard -->
-<script src="angularjs/views/dashboard/dashboard.controller.js"></script>
-<script src="angularjs/views/dashboard/DashboardService.service.js"></script>
-
-
 
 <!--  Add Image -->
 <!-- <script src="angularjs/js/angular-material.min.js"></script> -->

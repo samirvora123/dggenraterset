@@ -47,9 +47,17 @@ public class DashboardController {
 	}
 
 		@RequestMapping(value="/admin/Dashboard" ,produces={"application/json"})
-		public List<Dashboarddetails> getDashboardlist()
+		public List<Dashboarddetails> getDashboardlist(Authentication auth)
 		{
+			BonrixUser currentUser = (BonrixUser) auth.getPrincipal();
+			Set<UserRole> liss= currentUser.getUserRole();
+				System.out.println(liss);
+			if(currentUser.getUserRole().stream().anyMatch(u->u.getRole().equalsIgnoreCase("ROLE_ADMIN")))
+			{
 			return Dashboardservices.getlist();
+			}else {
+			return null;
+			}
 		}
 	
 		@RequestMapping(value="/admin/Dashboard/{id}",method=RequestMethod.GET)
