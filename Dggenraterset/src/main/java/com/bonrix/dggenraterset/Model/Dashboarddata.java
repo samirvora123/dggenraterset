@@ -21,7 +21,6 @@ public class Dashboarddata {
 	@Column
 	private Long deviceid_fk;
 	
-	private 
 	
 	
 }

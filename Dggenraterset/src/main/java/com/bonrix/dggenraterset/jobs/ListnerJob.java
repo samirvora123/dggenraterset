@@ -38,11 +38,12 @@ public class ListnerJob {
 		ls.startTk103(Ipaddress,Integer.parseInt(rb.getString("tk103")));
 		}
 		
-		try {
-			ls.startMQTT(Ipaddress, 1883);
-		} catch (MqttException e) {
-			e.printStackTrace();
+		if(rb.containsKey("EnagryMeter"))
+		{
+		ls.startEnergyMeterServer(Ipaddress,Integer.parseInt(rb.getString("EnagryMeter")));
 		}
+		
+	
 		
 		System.out.println("ListnerJob ConstructEd");
 		

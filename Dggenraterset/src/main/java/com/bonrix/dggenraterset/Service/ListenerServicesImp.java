@@ -3,7 +3,6 @@ package com.bonrix.dggenraterset.Service;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
@@ -15,7 +14,7 @@ import org.jboss.netty.util.CharsetUtil;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.bonrix.MQTTtest.Subscriber;
+import com.bonrix.dggenraterset.TcpServer.EnergyMeterServer;
 import com.bonrix.dggenraterset.TcpServer.GT06Server;
 import com.bonrix.dggenraterset.TcpServer.TK103Server;
 import com.bonrix.dggenraterset.TcpServer.Testserver;
@@ -92,11 +91,31 @@ public class ListenerServicesImp implements ListenerServices {
 		
 	}
 	
+
+
 	@Override
 	@Async
-	public void startMQTT(String ipaddress, int port) throws MqttException {
-		System.out.println("Starting MQTT");
-		new Subscriber().subscribermqtt(ipaddress, port);
+	public void startEnergyMeterServer(String ipaddress, int port) {
+		System.out.println("Starting EnergyMeterServer On IP "+ipaddress+" Port "+port);
+		 ServerBootstrap bootstrap = new ServerBootstrap(
+	  		      new NioServerSocketChannelFactory(
+	  		      Executors.newCachedThreadPool(), 
+	  		      Executors.newCachedThreadPool()));
+	  		    bootstrap.setPipelineFactory(new ChannelPipelineFactory()
+	  		    {
+	  		      public ChannelPipeline getPipeline()
+	  		        throws Exception
+	  		      {
+	  		        ChannelPipeline pipeline = Channels.pipeline();
+	  		        pipeline.addLast("decoder", new StringDecoder());
+	  		        pipeline.addLast("encoder", new StringEncoder());
+	  		        pipeline.addLast("handler", new EnergyMeterServer.HandlerEnergyMeter());
+	  		        return pipeline;
+	  		      }
+	  		    });
+	  		   
+	  		    bootstrap.bind(new InetSocketAddress(ipaddress,port));
+		
 	}
 	
 
