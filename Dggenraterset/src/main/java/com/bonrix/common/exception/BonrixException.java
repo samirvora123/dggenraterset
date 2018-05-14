@@ -2,7 +2,7 @@
  * File Name : BonrixException.java
  * @author   : SAMIR VORA 
  * Version Information : 1.0
- * Customized Exception for all Easy Pay Exceptions
+ * Customized Exception for all Bonrix Exceptions
  * Modification History:
  * Date		 Modified By		Description 
  *13-02-2018  SAMIR VORA 			User Defined Exception Class

@@ -17,11 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.bonrix.common.exception.BonrixException;
+import com.bonrix.common.utils.CheckSum;
+import com.bonrix.common.utils.GoogleMapsApi;
 import com.bonrix.dggenraterset.DTO.EnergyMeterDTO;
 import com.bonrix.dggenraterset.Repository.DevicemasterRepository;
 import com.bonrix.dggenraterset.Repository.HistoryRepository;
 import com.bonrix.dggenraterset.Repository.LasttrackRepository;
-import com.bonrix.dggenraterset.TcpServer.TK103Server.HandlerTk103;
 import com.bonrix.dggenraterset.Tools.StringTools;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,9 +30,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 
 public class EnergyMeterServer{
-	
 	public static class HandlerEnergyMeter extends SimpleChannelUpstreamHandler {
-	private Logger log = Logger.getLogger(HandlerTk103.class);
+	private Logger log = Logger.getLogger(HandlerEnergyMeter.class);
 	@Autowired
 	@Qualifier("lasttrackrepository")
 	LasttrackRepository lasttrackrepository;
@@ -49,10 +49,15 @@ public class EnergyMeterServer{
 		String strmsg = (String) e.getMessage();
 		log.info("SAMEnargymeter:::" + strmsg);
 		 String[] msgary = strmsg.split(",");
-		 EnergyMeterDTO emdto=new EnergyMeterDTO();
-		log.info("SAMEnargymeter:: " +strmsg);
-	      try
+		  try
 	      {
+	/*	String strmsg1= strmsg.substring(2,strmsg.length()-3);
+		String checksum=strmsg.substring(strmsg.length()-3,strmsg.length()-1);
+		 
+		log.info("SAMEnargymeter:: " +strmsg1);
+		log.info("SAMEnargymeter:: checksum " +checksum);
+		log.info("checksumForm Calculation"+new CheckSum().chksum_gprs(strmsg1.getBytes()));*/
+	    
 	        if (strmsg.length() > 10)
 	        {
 	        	   String imei=msgary[0].substring(5);
@@ -60,9 +65,9 @@ public class EnergyMeterServer{
 	        	   String datestr = msgary[10]+msgary[2].substring(0,6) ;
 	        	   log.info("SAMEnargymeter:: Isvalid" +msgary[3]);
 	        	   boolean isvalid=Boolean.valueOf("A".equals(msgary[3]));
-	        	   
+	        	  
 	        	   log.info("SAMEnargymeter:: Is Live" +DatatypeConverter.printHexBinary(strmsg.substring(0, 2).getBytes()));
-	        	   log.info("SAMEnargymeter:: Is Live" +DatatypeConverter.printHexBinary(msgary[msgary.length-1].split("ATL")[1].getBytes()));
+	        	   log.info("SAMEnargymeter:: Checksumvalue: " +DatatypeConverter.printHexBinary(msgary[msgary.length-1].split("ATL")[1].getBytes()));
 	        	   boolean il = DatatypeConverter.printHexBinary(strmsg.substring(0, 2).getBytes()).equals("2001");
 	        	 
 	        	   Double spd = Double.valueOf(0.0D);
@@ -71,26 +76,39 @@ public class EnergyMeterServer{
 	               } else {
 	                 spd = Double.valueOf(Double.parseDouble(msgary[8]) * 1.852D);
 	               }
-	               
+	               Double angle=0.0d;
 	               Double latitude=0.0d;
 	               Double Langitude=0.0d;
-	               Double angle=0.0d;
-	               if ((msgary[4] == "") || (msgary[4] == null)) {
-	            	   latitude=StringTools.parseLatitude("0.0", "N");
-	               } else {
-	            	   latitude=StringTools.parseLatitude(msgary[4], "N");
-	               }
-	               if ((msgary[6] == "") || (msgary[6] == null)) {
-	                 Langitude=StringTools.parseLatitude("0.0", "E");
-	               } else {
-	                 Langitude=StringTools.parseLatitude(msgary[6], "E");
-	               }
+	               if(isvalid)
+	        	   {
+	            	   if ((msgary[4] == "") || (msgary[4] == null)) {
+		            	   latitude=StringTools.parseLatitude("0.0", "N");
+		               } else {
+		            	   latitude=StringTools.parseLatitude(msgary[4], "N");
+		               }
+	            	   if ((msgary[6] == "") || (msgary[6] == null)) {
+	  	                 Langitude=StringTools.parseLatitude("0.0", "E");
+	  	               } else {
+	  	                 Langitude=StringTools.parseLatitude(msgary[6], "E");
+	  	               }
+	            	   log.info("latitude:: "+latitude+"Langitude:: "+Langitude);
+	        	   }else
+	        	   {
+	        		   log.info("Cell Id: "+msgary[22]+"");
+					String[] latlog=GoogleMapsApi.GetLatLng(Integer.parseInt(msgary[22]),Integer.parseInt(msgary[23]),Integer.parseInt(msgary[24],16),Integer.parseInt(msgary[25],16));
+					latitude=Double.parseDouble(latlog[0]);
+					Langitude=Double.parseDouble(latlog[1]);
+					log.info("***latitude:: "+latitude+"***Langitude:: "+Langitude);
+	        	   }
+	              
+	            
+	             
 	              spd=StringTools.roundTwoDecimals(spd.doubleValue());
 	               if ((msgary[9] != "") || (msgary[9] != null)) {
 	            	   angle= Double.parseDouble(msgary[9]);
 	               }
 	               double odometer=Double.parseDouble(msgary[18]);
-	               
+	                
 	               BigDecimal bd=new BigDecimal(msgary[15]).multiply(new BigDecimal(12));
 	               String  analog=bd.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
 	               //chksum_gprs(strmsg.get);
