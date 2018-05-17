@@ -160,6 +160,15 @@
                controllerAs: 'vm',
                
       }
+        
+        var createdashboard={
+        		 name: 'app.	',
+              url: '/createdashboard',
+              templateUrl: 'angularjs/views/dashboard/dashboardcreation.jsp',
+            //  controller: 'DashboardController',
+              controllerAs: 'vm',
+              
+     }
       
         //$stateProvider.state(loginState);
         $stateProvider.state(appState);
@@ -173,6 +182,7 @@
         $stateProvider.state(digiexample);
         $stateProvider.state(imgesetupview);
         $stateProvider.state(dashboardlist);
+        $stateProvider.state(createdashboard);
      
        
     }

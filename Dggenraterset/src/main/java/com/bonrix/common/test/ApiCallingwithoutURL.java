@@ -5,9 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
-public class Application {
+public class ApiCallingwithoutURL {
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(ApiCallingwithoutURL.class);
 
     public static void main(String args[]) {
         RestTemplate restTemplate = new RestTemplate();

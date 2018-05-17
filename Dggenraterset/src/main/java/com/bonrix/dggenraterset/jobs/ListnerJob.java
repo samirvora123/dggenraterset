@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bonrix.dggenraterset.Service.ListenerServices;

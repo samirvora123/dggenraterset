@@ -22,7 +22,6 @@ public class GoogleMapsApi {
 	
 	 static byte[] PostData(int MCC, int MNC, int LAC, int CID)
 	    {
-
 	        /* The shortCID parameter follows heuristic experiences:
 
 	         * Sometimes UMTS CIDs are build up from the original GSM CID (lower 4 hex digits)
@@ -65,8 +64,6 @@ public class GoogleMapsApi {
 	    0x00, 0x00, 0x00, 0x00
 
 	};
-
-
 	    /*    if (shortCID)
 
 	            CID &= 0xFFFF;      /* Attempt to resolve the cell using the

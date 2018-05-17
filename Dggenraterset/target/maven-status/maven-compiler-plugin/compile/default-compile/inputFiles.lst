@@ -12,6 +12,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\test\Quote.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\HistoryServices.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\TcpServer\GT06Server.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\Dashboarddata.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\MyUserDetailsService.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Controller\DashboardController.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\exception\ExceptionUtil.java
@@ -34,6 +35,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\Parameter.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\enums\StatusCodes.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\HistoryServicesImp.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\DTO\EnergyMeterDTO.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Repository\DeviceProfileRepository.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\TcpServer\Testserver.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\Lasttrack.java
@@ -45,6 +47,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\test\Value.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Utility\ApplicationContextHolder.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\SpringException.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\thingsdashboard\Model\Widgets.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\History.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\TcpServer\TK103Server.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\DeviceProfile.java
@@ -52,6 +55,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Repository\ParameterRepository.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Repository\DevicemasterRepository.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\MQTTtest\Publisher.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\TcpServer\EnergyMeterServer.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\ComponentServicesImpl.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Controller\ImagecordinatorController.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\enums\Status.java
@@ -60,6 +64,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Repository\ComponentRepository.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Utility\SpringSecurityInitializer.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\enums\Parameter.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\utils\CheckSum.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\DashboardServicesImp.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\Componet_image.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\AnalogDataServices.java
@@ -74,6 +79,7 @@ C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenr
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Utility\Appconfig.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Tools\CoordinatesConverter.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Service\AnalogDataServicesImpl.java
+C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\common\utils\GoogleMapsApi.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Model\Componet.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\jobs\ListnerJob.java
 C:\Users\Dell\git\dggenratersetgit\Dggenraterset\src\main\java\com\bonrix\dggenraterset\Tools\StringConverter.java
