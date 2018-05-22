@@ -1,4 +1,7 @@
-<appender name="file" class="org.apache.log4j.RollingFileAppender">
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <appender name="file" class="org.apache.log4j.RollingFileAppender">
         <param name="append" value="false" />
         <param name="maxFileSize" value="10MB" />
         <param name="maxBackupIndex" value="10" />
@@ -8,3 +11,10 @@
             value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m${HostName}%n" />
         </layout>
     </appender>
+
+  <root> 
+    <priority value ="debug" /> 
+    <appender-ref ref="console" /> 
+  </root>
+
+</log4j:configuration>
