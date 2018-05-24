@@ -18,16 +18,18 @@ import com.bonrix.dggenraterset.TcpServer.EnergyMeterServer;
 import com.bonrix.dggenraterset.TcpServer.GT06Server;
 import com.bonrix.dggenraterset.TcpServer.TK103Server;
 import com.bonrix.dggenraterset.TcpServer.Testserver;
+import com.sun.istack.internal.logging.Logger;
 
 @Service("ListenerServices")
 public class ListenerServicesImp implements ListenerServices {
 	
+	private Logger log=Logger.getLogger(ListenerServicesImp.class);
 	
 	@Override
 	@Async
 	public void startGT06(String ipaddress, int port) {
 		
-		System.out.println("Starting GT06");
+		log.info("Starting GT06");
 		ServerBootstrap bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 		bootstrap.setPipelineFactory(()-> {
 				ChannelPipeline pipeline = Channels.pipeline();
@@ -44,7 +46,7 @@ public class ListenerServicesImp implements ListenerServices {
 	@Override
 	@Async
 	public void startTk103(String ipaddress, int port) {
-		System.out.println("Starting Tk103");
+		log.info("Starting Tk103");
 		 ServerBootstrap bootstrap = new ServerBootstrap(
 	  		      new NioServerSocketChannelFactory(
 	  		      Executors.newCachedThreadPool(), 
@@ -69,7 +71,7 @@ public class ListenerServicesImp implements ListenerServices {
 	@Override
 	@Async
 	public void test(String ipaddress, int port) {
-		System.out.println("Starting Test");
+		log.info("Starting Test");
 		 ServerBootstrap bootstrap = new ServerBootstrap(
 	  		      new NioServerSocketChannelFactory(
 	  		      Executors.newCachedThreadPool(), 
@@ -96,7 +98,7 @@ public class ListenerServicesImp implements ListenerServices {
 	@Override
 	@Async
 	public void startEnergyMeterServer(String ipaddress, int port) {
-		System.out.println("Starting EnergyMeterServer On IP "+ipaddress+" Port "+port);
+		log.info("Starting EnergyMeterServer On IP "+ipaddress+" Port "+port);
 		 ServerBootstrap bootstrap = new ServerBootstrap(
 	  		      new NioServerSocketChannelFactory(
 	  		      Executors.newCachedThreadPool(), 
