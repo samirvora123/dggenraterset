@@ -85,7 +85,13 @@ table { table-layout:fixed; } td{ overflow:hidden; text-overflow: ellipsis; }
        row.insertCell(0).innerHTML= '<tr><td>'+getanalogdata2()+'</td>';
        row.insertCell(1).innerHTML= '<td><input type="text" name="unit[]" placeholder="Enter Unit" id="unit[]" ></td>'
    	   row.insertCell(2).innerHTML= '<td><input type="text" name="formula[]" placeholder="Enter Formula" id="formula[]"></td>';
-       row.insertCell(3).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deleteanalogRow(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
+   	var data='<td><select name="analogioindex[]" id="analogioindex[]">';
+	 for(var i=1; i<=2;i++)
+		 {
+		 data+='<option value="'+i+'">'+i+'</option>';
+		 }
+	 row.insertCell(3).innerHTML= data+'</select></td>';
+       row.insertCell(4).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deleteanalogRow(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
        mainflag++;
    }
   function deleteanalogRow(obj) 
@@ -105,7 +111,13 @@ table { table-layout:fixed; } td{ overflow:hidden; text-overflow: ellipsis; }
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML=  '<tr><td>'+getDigitaldata2()+'</td>';
     row.insertCell(1).innerHTML= '<td><select name="dreverse[]" id="dreverse[]"><option value="True">True</option><option value="False">False</option></select></td>'
-	row.insertCell(2).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deletedigitalRow(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
+    		var data='<td><select name="dioindex[]" id="dioindex[]">';
+    	 for(var i=1; i<=14;i++)
+    		 {
+    		 data+='<option value="'+i+'">'+i+'</option>';
+    		 }
+    	 row.insertCell(2).innerHTML= data+'</select></td>';
+	row.insertCell(3).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deletedigitalRow(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
     mainflag++;
    }
    
@@ -127,8 +139,14 @@ table { table-layout:fixed; } td{ overflow:hidden; text-overflow: ellipsis; }
        var rowCount = table.rows.length;
        var row = table.insertRow(rowCount);
        row.insertCell(0).innerHTML=  '<tr><td>'+getRS232data2()+'</td>';
-       row.insertCell(1).innerHTML= '<td><select name="rsreverse[]" id="rsreverse[]"><option value="True">True</option><option value="False">False</option></select></td>'
-   	row.insertCell(2).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deleters232Row(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
+       row.insertCell(1).innerHTML= '<td><input type="text" name="rs232unit[]" placeholder="Enter Unit" id="rs232unit[]" ></td></td>';
+   	var data='<td><select name="rs232ioindex[]" id="rs232ioindex[]">';
+	 for(var i=1; i<=2;i++)
+		 {
+		 data+='<option value="'+i+'">'+i+'</option>';
+		 }
+	 row.insertCell(2).innerHTML= data+'</select></td>';
+   	row.insertCell(3).innerHTML= '<td><a class="btn btn-danger"   onClick="Javacsript:deleters232Row(this)"><i class="glyphicon glyphicon-trash icon-white"></i></a></td></tr>';
        mainflag++;
    }
    

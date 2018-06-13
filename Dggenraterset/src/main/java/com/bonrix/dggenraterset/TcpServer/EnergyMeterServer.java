@@ -1,51 +1,56 @@
 package com.bonrix.dggenraterset.TcpServer;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonParser;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.bonrix.common.exception.BonrixException;
-import com.bonrix.common.utils.CheckSum;
 import com.bonrix.common.utils.GoogleMapsApi;
-import com.bonrix.dggenraterset.DTO.EnergyMeterDTO;
+import com.bonrix.dggenraterset.Model.DeviceProfile;
+import com.bonrix.dggenraterset.Model.Devicemaster;
+import com.bonrix.dggenraterset.Model.History;
+import com.bonrix.dggenraterset.Model.Lasttrack;
 import com.bonrix.dggenraterset.Repository.DevicemasterRepository;
 import com.bonrix.dggenraterset.Repository.HistoryRepository;
 import com.bonrix.dggenraterset.Repository.LasttrackRepository;
 import com.bonrix.dggenraterset.Tools.StringTools;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.bonrix.dggenraterset.Utility.ApplicationContextHolder;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 
 
 public class EnergyMeterServer{
 	public static class HandlerEnergyMeter extends SimpleChannelUpstreamHandler {
 	private Logger log = Logger.getLogger(HandlerEnergyMeter.class);
-	@Autowired
-	@Qualifier("lasttrackrepository")
-	LasttrackRepository lasttrackrepository;
-	@Autowired
-	@Qualifier("devicemasterRepository")
-	DevicemasterRepository devicemasterRepository;
-	@Autowired
-	@Qualifier("histroyrepository")
-	HistoryRepository histroyrepository;
+
+	LasttrackRepository lasttrackrepository=ApplicationContextHolder.getContext().getBean(LasttrackRepository.class);
+
+	
+	DevicemasterRepository devicemasterRepository=ApplicationContextHolder.getContext().getBean(DevicemasterRepository.class);
+
+	
+	HistoryRepository histroyrepository=ApplicationContextHolder.getContext().getBean(HistoryRepository.class);
 	private SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyHHmmss");
 	 
 	 
+	@SuppressWarnings("unchecked")
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws ParseException, JsonParseException, JsonMappingException, IOException, BonrixException {
-		//ATL861693031524309,$GPRMC,000028.021,V,,,,,0000,0.00,060180,,,N*55,#01111010000100,0,0,0,2.13,0,3.931,20,404,24,3a9d,3f5,0,,1.0_enr_mtr,,INTERNET,FFFFFFFFFFFFFFFF,ATL
+		//ATL861693031524309,$GPRMC,000028.021,V,,,,,0000,0.00,060180,,,N*55,#01111010000100,0,0,0,2.13,0,3.931,20,404,24,3a9d,3f5,0,,1.0_enr_mtr,,INTERNET,00000113FFFFFFFF,ATL
 		String strmsg = (String) e.getMessage();
 		log.info("SAMEnargymeter:::" + strmsg);
 		 String[] msgary = strmsg.split(",");
@@ -62,21 +67,17 @@ public class EnergyMeterServer{
 	        {
 	        	   String imei=msgary[0].substring(5);
 	        	   log.info("SAMEnargymeter:: IMEI" +imei);
+	        	   Devicemaster device = devicemasterRepository.findByImei(imei);
+	        	   if(device!=null)
+	        	   {
 	        	   String datestr = msgary[10]+msgary[2].substring(0,6) ;
 	        	   log.info("SAMEnargymeter:: Isvalid" +msgary[3]);
 	        	   boolean isvalid=Boolean.valueOf("A".equals(msgary[3]));
 	        	  
 	        	   log.info("SAMEnargymeter:: Is Live" +DatatypeConverter.printHexBinary(strmsg.substring(0, 2).getBytes()));
 	        	   log.info("SAMEnargymeter:: Checksumvalue: " +DatatypeConverter.printHexBinary(msgary[msgary.length-1].split("ATL")[1].getBytes()));
-	        	   boolean il = DatatypeConverter.printHexBinary(strmsg.substring(0, 2).getBytes()).equals("2001");
-	        	 
-	        	   Double spd = Double.valueOf(0.0D);
-	               if ((msgary[8] == "") || (msgary[8] == null) || (msgary[8].isEmpty())) {
-	                 spd = Double.valueOf(0.0D);
-	               } else {
-	                 spd = Double.valueOf(Double.parseDouble(msgary[8]) * 1.852D);
-	               }
-	               Double angle=0.0d;
+	        	   boolean islive = DatatypeConverter.printHexBinary(strmsg.substring(0, 2).getBytes()).equals("2001");
+	        
 	               Double latitude=0.0d;
 	               Double Langitude=0.0d;
 	               if(isvalid)
@@ -100,27 +101,87 @@ public class EnergyMeterServer{
 					Langitude=Double.parseDouble(latlog[1]);
 					log.info("***latitude:: "+latitude+"***Langitude:: "+Langitude);
 	        	   }
+	              String ennargymeterdata=msgary[31];
+	              log.info("ennargymeterdata::: "+ennargymeterdata+" Serial Port 1 Data:: "+ennargymeterdata.substring(0, 8)+" Serial Port 2 Data:: "+ennargymeterdata.substring(8, 15));
 	              
 	            
-	             
-	              spd=StringTools.roundTwoDecimals(spd.doubleValue());
-	               if ((msgary[9] != "") || (msgary[9] != null)) {
-	            	   angle= Double.parseDouble(msgary[9]);
-	               }
-	               double odometer=Double.parseDouble(msgary[18]);
-	                
-	               BigDecimal bd=new BigDecimal(msgary[15]).multiply(new BigDecimal(12));
-	               String  analog=bd.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-	               //chksum_gprs(strmsg.get);
+	              // 404,24,3a9d,3f5,0,,1.0_enr_mtr,,INTERNET,00000113FFFFFFFF,ATL
+	              
+	              
+	          	DeviceProfile dp = device.getDp();
+				JSONObject jo = new JSONObject();
+				JSONArray digitaljsonarr = new JSONArray();
+				ObjectMapper mapper=new ObjectMapper();
+				mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+				mapper.configure(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS, true);
+			
+				JSONObject parameters = new JSONObject(dp.getParameters());
+				String digitalldata=msgary[14];
+			//	#11011001001010
+				log.info("digianalogdata::: "+digitalldata);
+				JSONArray digitals =parameters.getJSONArray("Digital");
+				for (int i = 0; i < digitals.length(); i++) {
+					JSONObject obj = (JSONObject) digitals.get(i);
+					JSONObject digiobj = new JSONObject();
+						boolean dig1 = false;
+						int ioindex=obj.getInt("dioindex");
+						log.info("DIGI "+(i+1)+" :: "+digitalldata.substring(ioindex, ioindex+1));
+						if (digitalldata.substring(ioindex,ioindex+1).equals("1")) {
+							dig1 = !((Boolean) obj.get("reverse"));
+						} else {
+							dig1 = ((Boolean) obj.get("reverse"));
+						}
+				    digiobj.put("digitalname", obj.get("parametername").toString());
+					digiobj.put("digitalvalue", dig1);
+					digiobj.put("digitalindex", obj.getInt("dioindex"));
+					digitaljsonarr.put(digiobj);
+				}
 
-	               /*         String inputs = msgary[14];
-	               ge.setDig2(Boolean.valueOf("1".equals(inputs.substring(1, 2))));
-	               ge.setDig3(Boolean.valueOf("0".equals(inputs.substring(3, 4))));
-	               ge.setDig1(Boolean.valueOf("1".equals(inputs.substring(8, 9))));
-	               ge.setDig4(Boolean.valueOf("1".equals(inputs.substring(6, 7))));
-	               ge.setDig5(Boolean.valueOf("0".equals(inputs.substring(2, 3))));*/
-	               
-	              Date devicedate=sdf.parse(datestr);
+				JSONArray analogjsonarr = new JSONArray();
+				JSONArray analogs =  parameters.getJSONArray("Analog");
+				for (int i = 0; i < analogs.length(); i++) {
+					JSONObject obj = (JSONObject) analogs.get(i);
+					JSONObject analogobj = new JSONObject();
+					int ioindex=obj.getInt("analogioindex");
+					log.info("Analog "+(i+1)+" :: "+msgary[14+ioindex]);
+					analogobj.put("analogname", obj.get("analogname").toString());
+					analogobj.put("analogvalue", msgary[14+ioindex].toString());
+					analogobj.put("analogindex", ioindex);
+					analogjsonarr.put(analogobj);
+				}
+	              log.info("serial Port 1::"+ennargymeterdata.substring(0, 8)+"serial Port 2::"+ennargymeterdata.substring(8,16));
+				JSONArray rs232arr = new JSONArray();
+				JSONArray rs232 = parameters.getJSONArray("Rs232");
+				for (int i = 0; i < rs232.length(); i++) {
+					JSONObject obj = (JSONObject) rs232.get(i);
+					JSONObject rs232obj = new JSONObject();
+					int ioindex=obj.getInt("rs232ioindex");
+					String serialportdata=ennargymeterdata.substring((ioindex-1)*8, ((ioindex-1)*8)+8);
+					if(!serialportdata.equals("FFFFFFFF")) {
+					int serialport=Integer.parseInt(ennargymeterdata.substring((ioindex-1)*8, ((ioindex-1)*8)+8),16);
+					 log.info("serial Port HEXA "+ioindex+" :: "+serialport);
+					 rs232obj.put("rs232name", obj.get("parametername").toString());
+					 rs232obj.put("rs232value", msgary[14+ioindex].toString());
+					 rs232obj.put("rs232index", ioindex);
+					rs232arr.put(rs232obj);
+					}else {
+						rs232obj.put("rs232name", obj.get("parametername").toString());
+						 rs232obj.put("rs232value", "Not Applicable");
+						 rs232obj.put("rs232index", ioindex);
+					}
+				}
+				JSONObject obj=new JSONObject();
+				obj.put("latitude", latitude);
+				obj.put("longitude", Langitude);
+				History hist = new History(device.getDeviceid(), device.getUserId(),sdf.parse(datestr),new Date(),new ObjectMapper().readValue(jo.toString(),Map.class),new ObjectMapper().readValue(obj.toString(),Map.class));
+				Lasttrack lTrack = new Lasttrack(device.getDeviceid(), device.getUserId(),sdf.parse(datestr),new Date(),new ObjectMapper().readValue(jo.toString(),Map.class),new ObjectMapper().readValue(obj.toString(),Map.class));
+				histroyrepository.saveAndFlush(hist);
+				if(islive)
+				lasttrackrepository.saveAndFlush(lTrack);
+				
+	        	   }else{
+	        		   log.info("Unknown Device Found:::::: "+imei);
+	        	   }
 	        }
 	      }catch (Exception ex) {
 	    	  ex.printStackTrace();
@@ -149,6 +210,7 @@ public class EnergyMeterServer{
 		return fnl + "";
 	}
 	
+	@SuppressWarnings("unused")
 	private  static char chksum_gprs(char ptr)
 	{
 		int i = 0;

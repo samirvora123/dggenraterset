@@ -3,11 +3,11 @@ package com.bonrix.dggenraterset.Repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-
+import org.springframework.stereotype.Repository;
 
 import com.bonrix.dggenraterset.Model.Devicemaster;
 
-
+@Repository
 public interface DevicemasterRepository extends  BaseRepository<Devicemaster,Long> {
 
 	@Query(value="select deviceprofile.profilename,devicemaster.deviceid,devicemaster.devicename,deviceprofile.prid from deviceprofile join devicemaster on  deviceprofile.prid=devicemaster.prid_fk", nativeQuery=true)

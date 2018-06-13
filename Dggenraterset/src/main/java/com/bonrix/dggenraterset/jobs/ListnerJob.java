@@ -26,6 +26,7 @@ public class ListnerJob {
 	}
 	@PostConstruct
 	public void init() {
+		
 		String Ipaddress=rb.getString("ipaddress");
 		log.info("Start ListnerJob");
 		if(rb.containsKey("GT06"))

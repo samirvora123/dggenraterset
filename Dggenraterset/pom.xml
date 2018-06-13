@@ -88,6 +88,14 @@
 		  <version>2.6.3.RELEASE</version>
 		</dependency> 
 
+
+		<!-- https://mvnrepository.com/artifact/com.dlmorais/livelog -->
+		<dependency>
+		    <groupId>com.dlmorais</groupId>
+		    <artifactId>livelog</artifactId>
+		    <version>0.0.8</version>
+		</dependency>
+
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

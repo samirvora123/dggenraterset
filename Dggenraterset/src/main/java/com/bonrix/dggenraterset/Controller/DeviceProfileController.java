@@ -86,7 +86,10 @@ public class DeviceProfileController {
 			String[] digitaldata = request.getParameterValues("digitaldata[]");
 			String[] dreverse = request.getParameterValues("dreverse[]");
 			String[] rs232data = request.getParameterValues("rs232data[]");
-			String[] rsreverse = request.getParameterValues("rsreverse[]");
+			String[] rs232unit = request.getParameterValues("rs232unit[]");
+			String[] analogioindex = request.getParameterValues("analogioindex[]");
+			String[] dioindex = request.getParameterValues("dioindex[]");
+			String[] rs232ioindex = request.getParameterValues("rs232ioindex[]");
 			
 			// log.info("Analog length"+analogdata.length);
 			// log.info("Digi length"+digitaldata.length);
@@ -104,6 +107,7 @@ public class DeviceProfileController {
 	           analogjo.put("Analoginput", analogdata[i]);
 	           analogjo.put("Analogunit", unit[i]);
 	           analogjo.put("Analogformula", formula[i]);
+	           analogjo.put("analogioindex", Integer.parseInt(analogioindex[i]));
 	           String profilename=Parameterservices.get(Long.parseLong(analogdata[i])).getPrmname();
 	         //  log.info("profilename:::  "+profilename);
 	           analogjo.put("analogname", profilename);
@@ -121,6 +125,7 @@ public class DeviceProfileController {
 		           digitaljo.put("reverse", Boolean.parseBoolean(dreverse[i]));
 		           digitaljo.put("parameterId", digidata[0]);
 		           digitaljo.put("parametername", digidata[1]);
+		           digitaljo.put("dioindex",Integer.parseInt(dioindex[i]));
 		           digitaljsonarr.put(digitaljo);
 		        }
 			    jo.put("Digital", digitaljsonarr);
@@ -133,9 +138,10 @@ public class DeviceProfileController {
 		           
 		           JSONObject rs232jo = new JSONObject();
 		           String rs232dataa[]= rs232data[i].split("#");
-		           rs232jo.put("reverse", Boolean.parseBoolean(rsreverse[i]));
+		           rs232jo.put("rs232unit", rs232unit[i]);
 		           rs232jo.put("parameterId", rs232dataa[0]);
 		           rs232jo.put("parametername", rs232dataa[1]);
+		           rs232jo.put("rs232ioindex", Integer.parseInt(rs232ioindex[i]));
 		           rs232jsonarr.put(rs232jo);
 		        }
 			  jo.put("Rs232", rs232jsonarr);

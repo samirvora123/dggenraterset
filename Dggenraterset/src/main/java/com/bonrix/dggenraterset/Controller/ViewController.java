@@ -47,6 +47,12 @@ public class ViewController
 		return new ModelAndView("login");
 	}
 	
+	@RequestMapping(value = "/liveloggg", method = RequestMethod.GET)
+	public ModelAndView livelogpage() 
+	{
+		return new ModelAndView("resources/livelog");
+	}
+	
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public ModelAndView welcome() 
 	{
